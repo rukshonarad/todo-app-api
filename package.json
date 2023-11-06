@@ -1,0 +1,23 @@
+{
+    "name": "todo-app-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start:dev": "nodemon index.js",
+        "start": "node index.js",
+        "prisma:g": "npx prisma generate --schema=./src/prisma/schema.prisma",
+        "db:p": "npx prisma db push --schema=./src/prisma/schema.prisma "
+    },
+    "author": "Rukhshona",
+    "license": "ISC",
+    "dependencies": {
+        "@prisma/client": "^5.5.2",
+        "bcryptjs": "^2.4.3",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "nodemailer": "^6.9.7",
+        "uuid": "^9.0.1"
+    },
+    "type": "module"
+}
