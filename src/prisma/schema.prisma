@@ -1,0 +1,36 @@
+datasource db {
+    provider = "mongodb"
+    url      = env("DB_URL")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+enum TodoStatus {
+    TODO
+    INPROGRESS
+    DONE
+}
+
+model Todos {
+    id          String     @id @default(auto()) @map("_id") @db.ObjectId
+    title       String
+    description String?
+    due         DateTime
+    status      TodoStatus
+    userId      String     @db.ObjectId
+    User        User[]
+}
+
+model User {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    email     String   @unique
+    firstName String
+    lastName  String
+    password  String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    Todo      Todos?   @relation(fields: [todoId], references: [id])
+    todoId    String   @db.ObjectId
+}
