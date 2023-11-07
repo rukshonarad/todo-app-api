@@ -1,14 +1,15 @@
 import { userService } from "../services/user.service.js";
 
 import { catchAsync } from "../utils/catch-async.js";
-
+import { CustomError } from "../utils/custom-error.js";
 class UserController {
     signUp = catchAsync(async (req, res) => {
         const { body } = req;
 
-        const input = {
+        const userInput = {
             email: body.email,
             firstName: body.firstName,
+            preferredFirstName: body.preferredName,
             lastName: body.lastName,
             password: body.password
         };

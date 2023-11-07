@@ -1,8 +1,9 @@
 import { Router } from "express";
-import { todoController } from "../controller/tasks.controller.js";
+import { userMiddleware } from "../middleware/user.middleware.js";
+import { taskController } from "../controller/tasks.controller.js";
 
-const userRouter = Router();
+const taskRouter = Router();
 
-userRouter.post("/sign-up", userController.signUp);
+taskRouter.post("/", userMiddleware.authenticate, taskController.create);
 
-export { userRouter };
+export { taskRouter };

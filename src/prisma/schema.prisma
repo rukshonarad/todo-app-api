@@ -29,14 +29,15 @@ model Task {
 }
 
 model User {
-    id        String        @id @default(auto()) @map("_id") @db.ObjectId
-    email     String        @unique
-    firstName String
-    lastName  String
-    password  String
-    createdAt DateTime      @default(now())
-    updatedAt DateTime      @updatedAt
-    status    AccountStatus @default(INACTIVE)
-    Task      Task?         @relation(fields: [taskId], references: [id])
-    taskId    String        @db.ObjectId
+    id              String        @id @default(auto()) @map("_id") @db.ObjectId
+    email           String        @unique
+    firstName       String
+    lastName        String
+    password        String
+    activationToken String?
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+    status          AccountStatus @default(INACTIVE)
+    Task            Task?         @relation(fields: [taskId], references: [id])
+    taskId          String        @db.ObjectId
 }

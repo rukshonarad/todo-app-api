@@ -1,6 +1,6 @@
 import { catchAsync } from "../utils/catch-async.js";
 import { CustomError } from "../utils/custom-error.js";
-
+import { taskService } from "../services/tasks.service.js";
 class TaskController {
     create = catchAsync(async (req, res) => {
         const { body, userId } = req;
@@ -10,13 +10,14 @@ class TaskController {
         };
 
         if (!input.title || !input.description) {
-            throw new CustomError("Name and Description are required", 400);
+            throw new CustomError("Tite and Description are required", 400);
         }
 
-        const project = await projectService.create(input, userId);
+        const task = await taskService.create(input, userId);
 
         res.status(201).json({
-            data: project
+            data: task
         });
     });
 }
+export const taskController = new TaskController();

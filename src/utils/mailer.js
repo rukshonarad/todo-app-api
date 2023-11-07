@@ -24,7 +24,7 @@ class Mailer {
         try {
             this.send({
                 to: emailAddress,
-                subject: "Todo - App - Api | Activate Your Account",
+                subject: "Todo - app - api| Activate Your Account",
                 html: `<a href="http://localhost:3030/users/activate?activationToken=${token}">Verify your email</a>`
             });
         } catch (error) {
