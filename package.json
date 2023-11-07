@@ -13,6 +13,7 @@
     "license": "ISC",
     "dependencies": {
         "@prisma/client": "^5.5.2",
+        "@types/jsonwebtoken": "^9.0.4",
         "bcryptjs": "^2.4.3",
         "crypto-js": "^4.2.0",
         "d": "^1.0.1",
