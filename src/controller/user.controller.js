@@ -1,27 +1,27 @@
 import { userService } from "../services/user.service.js";
-
 import { catchAsync } from "../utils/catch-async.js";
 import { CustomError } from "../utils/custom-error.js";
+
 class UserController {
     signUp = catchAsync(async (req, res) => {
-        const { body } = req;
+        const { email, preferredName, firstName, lastName, password } =
+            req.body;
 
         const userInput = {
-            email: body.email,
-            firstName: body.firstName,
-            preferredFirstName: body.preferredName,
-            lastName: body.lastName,
-            password: body.password
+            email,
+            preferredFirstName: preferredName,
+            firstName,
+            lastName,
+            password
         };
-        const taskInput = {
-            title: body.tasks.title,
-            description: body.tasks.description
-        };
-        await userService.signUp(userInput, taskInput);
+
+        await userService.signUp(userInput);
+
         res.status(201).json({
-            massage: "Success"
+            message: "User registration successful!"
         });
     });
+
     login = catchAsync(async (req, res) => {
         const { body } = req;
         const input = {
@@ -34,5 +34,65 @@ class UserController {
             token: jwt
         });
     });
+
+    forgotPassword = catchAsync(async (req, res) => {
+        const {
+            body: { email }
+        } = req;
+
+        await userService.forgotPassword(email);
+        res.status(200).json({
+            message: "Password reset email has been sent"
+        });
+    });
+
+    resetPassword = catchAsync(async (req, res) => {
+        const {
+            body: { password, passwordConfirm },
+            headers
+        } = req;
+
+        if (!password || !passwordConfirm)
+            throw new CustomError(
+                "Password and Password Confirm is required",
+                400
+            );
+
+        if (password !== passwordConfirm)
+            throw new CustomError(
+                "Password and Password Confirm does not match",
+                400
+            );
+
+        if (!headers.authorization)
+            throw new CustomError("Reset Token is missing", 400);
+
+        const [bearer, token] = headers.authorization.split(" ");
+
+        if (bearer !== "Bearer" || !token)
+            throw new CustomError("Invalid Token", 400);
+
+        await userService.resetPassword(token, password);
+        res.status(200).json({
+            message: "Password successfully updated"
+        });
+    });
+
+    getMe = catchAsync(async (req, res) => {
+        const { userId } = req;
+
+        const me = await userService.getMe(userId);
+
+        res.status(200).json({
+            data: me
+        });
+    });
+
+    logout = catchAsync(async (req, res) => {
+        res.status(200).send({
+            token: ""
+        });
+    });
 }
+
 export const userController = new UserController();
