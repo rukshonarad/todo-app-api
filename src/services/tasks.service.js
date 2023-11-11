@@ -1,5 +1,5 @@
 import { prisma } from "../prisma/index.js";
-import { CustomError } from "../utils/customrror.js";
+import { CustomError } from "../utils/custom-error.js";
 
 class TaskService {
     create = async (input, userId) => {
@@ -61,6 +61,18 @@ class TaskService {
         });
 
         return tasks;
+    };
+
+    deleteTask = async (id) => {
+        const task = await prisma.task.findUnique({
+            where: {
+                id: id
+            },
+            select: {
+                task: true
+            }
+        });
+        return task;
     };
 }
 

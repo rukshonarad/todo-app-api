@@ -67,18 +67,21 @@ class TaskController {
         });
     });
 
-    archive = catchAsync(async (req, res) => {
-        const { params, userId } = req;
+    // getOne = catchAsync(async (req, res) => {
+    //     const { userId, params } = req;
 
-        await taskService.changeStatus(params.id, userId, "ARCHIVED");
-        res.status(204).send();
-    });
+    //     const task = await taskService.getOne(params.id, userId);
 
-    reactivate = catchAsync(async (req, res) => {
-        const { params, userId } = req;
-
-        await taskService.changeStatus(params.id, userId, "TODO");
-        res.status(204).send();
+    //     res.status(200).json({
+    //         data: task
+    //     });
+    // });
+    deleteTask = catchAsync(async (req, res) => {
+        const { userId, params } = req;
+        await taskService.deleteTask(userId, params.taskId);
+        res.status(204).json({
+            data: task
+        });
     });
 }
 

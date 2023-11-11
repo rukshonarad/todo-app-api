@@ -31,6 +31,17 @@ class Mailer {
             throw error;
         }
     };
+    sendPasswordResetToken = async (emailAddress, token) => {
+        try {
+            this.send({
+                to: emailAddress,
+                subject: "Todo -app- api | Reset Password",
+                html: `<a href="http://localhost:4000/reset-password/passwordResetToken=${token}">Reset Your Password</a>`
+            });
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 export const mailer = new Mailer();
