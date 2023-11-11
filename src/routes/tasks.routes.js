@@ -1,8 +1,13 @@
 import { Router } from "express";
-import { todoController } from "../controller/tasks.controller.js";
+import { userMiddleware } from "../middleware/user.middleware.js";
+import { taskController } from "../controller/tasks.controller.js";
 
-const userRouter = Router();
+const taskRouter = Router();
 
-userRouter.post("/sign-up", userController.signUp);
+taskRouter.post("/", userMiddleware.authenticate, taskController.create);
+taskRouter.get("/:id", userMiddleware.authenticate, taskController.getOne);
 
-export { userRouter };
+taskRouter.patch("/:id", userMiddleware.authenticate, taskController.update);
+taskRouter.get("/", userMiddleware.authenticate, taskController.getAll);
+taskRouter.delete("/:id", taskController.deleteTask);
+export { taskRouter };
